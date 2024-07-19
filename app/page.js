@@ -1,23 +1,59 @@
+"use client";
+import Todo from "@/components/Todo";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
 const Home = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+  const onChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData((form) => ({ ...form, [name]: value }));
+
+    console.log(formData);
+  };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      toast.success("Success");
+    } catch (error) {
+      toast.error("Error");
+    }
+  };
   return (
     <>
-      <form className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-16 px-2 mx-auto">
+      <ToastContainer theme="dark" />
+      <form
+        onSubmit={onSubmitHandler}
+        className="flex items-start flex-col gap-2 w-[80%] max-w-[600px] mt-16 px-2 mx-auto"
+      >
         <input
           type="text"
-          placeholder="Enter Task"
-          name="task"
+          placeholder="Enter Title"
+          name="title"
           className="px-3 py-2  border-2 w-full"
+          onChange={onChangeHandler}
+          value={formData.title}
         />
         <textarea
           name="description"
           placeholder="Enter description"
           className="px-3 py-2 border-2 w-full"
+          onChange={onChangeHandler}
+          value={formData.description}
         />
         <button
           type="submit"
           className="bg-gray-900 hover:bg-gray-800 py-3 px-11 text-white"
+          onClick={onSubmitHandler}
         >
-          Add
+          Add Todo
         </button>
       </form>
 
@@ -26,53 +62,26 @@ const Home = () => {
           <thead className="text-xs text-gray-900 uppercase bg-gray-200">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Product name
+                Id
               </th>
               <th scope="col" className="px-6 py-3">
-                Color
+                Title
               </th>
               <th scope="col" className="px-6 py-3">
-                Category
+                Description
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b ">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                Apple MacBook Pro 17
-              </th>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">$2999</td>
-            </tr>
-            <tr className="bg-white border-b">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                Microsoft Surface Pro
-              </th>
-              <td className="px-6 py-4">White</td>
-              <td className="px-6 py-4">Laptop PC</td>
-              <td className="px-6 py-4">$1999</td>
-            </tr>
-            <tr className="bg-white">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                Magic Mouse 2
-              </th>
-              <td className="px-6 py-4">Black</td>
-              <td className="px-6 py-4">Accessories</td>
-              <td className="px-6 py-4">$99</td>
-            </tr>
+            <Todo />
+            <Todo />
+            <Todo />
           </tbody>
         </table>
       </div>
